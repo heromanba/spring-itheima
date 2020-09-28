@@ -1,6 +1,9 @@
 package com.itheima.factory;
 
 import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -39,6 +42,9 @@ public class BeanFactory {
     //定义一个Properties对象
     private static Properties props;
 
+    //定义一个Map，用于存放我们要创建的对象
+    private static Map<String, Object> beans;
+
     //使用静态代码块对Properties对象赋值
     static {
         //1.实例化对象
@@ -53,22 +59,58 @@ public class BeanFactory {
             //一旦发生这个错误，后面就不会运行了，因为没有配置文件，任何对象都创建不出来
             throw new ExceptionInInitializerError("初始化Properties失败！");
         }
+        //3.实例化容器
+        beans = new HashMap<String, Object>();
+        //4.取出配置文件中所有的Key
+        Enumeration keys = props.keys();
+        //5.遍历枚举
+        while (keys.hasMoreElements()) {
+            //去除每个Key
+            String key = keys.nextElement().toString();
+            //根据key获取value
+            String beanPath = props.getProperty(key);
+            //反射创建对象
+            try {
+                Object value = Class.forName(beanPath).newInstance();
+                //把key和value存入容器中
+                beans.put(key, value);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    /**
+     * 根据bean的名称获取对象，现在已经是单例模式了。
+     * @param beanName
+     * @return
+     */
+    public static Object getBean(String beanName) {
+        return beans.get(beanName);
+    }
     /**
      * 返回类型应写Object或使用泛型，因为如果写死一个具体的返回值则此方法不沟通用。
      * 另外还需要一个参数指明想要得到的类型，根据Bean的名称获取bean对象。
      *
      * Q：工厂模式是否能解耦，service中依赖了一个具体的dao实现类，ui中依赖了具体的service
      */
-    public static Object getBean(String beanName) {
+    /*public static Object getBean(String beanName) {
         Object bean = null;
         try {
             String beanPath = props.getProperty(beanName);
+
+            *//*
+                newInstance表明每次都会调用默认构造函数创建对象。需要实现单例，所以只能
+                newInstance一次。但如果创建完了对象后不存起来，那由于java的回收机制，他
+                会在长时间不用时被回收。所以对象创建后需要马上存起来。
+
+                Q：那么以创建的对象存到哪里去呢？用什么来存呢？
+                A：用一个容器
+            *//*
             bean = Class.forName(beanPath).newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return bean;
-    }
+    }*/
 }
