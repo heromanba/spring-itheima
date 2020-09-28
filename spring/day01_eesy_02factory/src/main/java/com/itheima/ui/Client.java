@@ -30,6 +30,8 @@ public class Client {
 
             service和dao中不存在成员变量，所以不存在线程问题，可以把变量初始化在方法中，
             因为每次方法都会初始化，所以也能保证都是不同的变量。
+
+            业务层和持久层很少会包含可以修改的类成员的。
         */
         for (int i = 0; i < 5; i++) {
             IAccountService as = (IAccountService) BeanFactory.getBean("accountService");
