@@ -58,6 +58,8 @@ public class BeanFactory {
     /**
      * 返回类型应写Object或使用泛型，因为如果写死一个具体的返回值则此方法不沟通用。
      * 另外还需要一个参数指明想要得到的类型，根据Bean的名称获取bean对象。
+     *
+     * Q：工厂模式是否能解耦，service中依赖了一个具体的dao实现类，ui中依赖了具体的service
      */
     public static Object getBean(String beanName) {
         Object bean = null;

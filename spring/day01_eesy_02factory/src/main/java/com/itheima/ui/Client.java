@@ -1,6 +1,7 @@
 package com.itheima.ui;
 
 
+import com.itheima.factory.BeanFactory;
 import com.itheima.service.IAccountService;
 import com.itheima.service.impl.AccountServiceImpl;
 
@@ -20,7 +21,8 @@ public class Client {
         A：工厂模式解耦，但要清楚工厂到底是做什么的
      */
     public static void main(String[] args) {
-        IAccountService as = new AccountServiceImpl();
+        // IAccountService as = new AccountServiceImpl();
+        IAccountService as = (IAccountService) BeanFactory.getBean("accountService");
         as.saveAccount();
     }
 }

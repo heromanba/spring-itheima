@@ -2,6 +2,7 @@ package com.itheima.service.impl;
 
 import com.itheima.dao.IAccountDao;
 import com.itheima.dao.impl.AccountDaoImpl;
+import com.itheima.factory.BeanFactory;
 import com.itheima.service.IAccountService;
 
 /**
@@ -18,7 +19,8 @@ public class AccountServiceImpl implements IAccountService {
             下面的赋值表达式右边的new关键字，表示编译时依赖，是我们之前提到的要避免的地方。
             这种现象不光存在于业务层调持久层，还存在于表现层调业务层。
     */
-    private IAccountDao accountDao = new AccountDaoImpl();
+    // private IAccountDao accountDao = new AccountDaoImpl();
+    private IAccountDao accountDao = (IAccountDao) BeanFactory.getBean("accountDao");
 
     public void saveAccount() {
         accountDao.saveAccount();
