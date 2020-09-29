@@ -32,9 +32,10 @@ public class Client {
      * 核心容器的两个接口引发出的问题：
      *     1. ApplicationContext：
      *         构建核心容器时，创建对象采用的策略是立即加载，即只要一读取完配置文件马上就创建配置文件中配置的对象。
+     *         **单例**创建适用
      *     2. BeanFactory：
      *         构建核心容器时，创建对象采用的策略是延迟加载，即什么时候根据id获取对象了，什么时候才真正的创建对象。
-     *
+     *         **多例**创建适用
      * @param args
      */
     public static void main(String[] args) {
