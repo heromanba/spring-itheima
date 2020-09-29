@@ -9,7 +9,7 @@ import com.itheima.service.IAccountService;
  */
 public class AccountServiceImpl implements IAccountService {
 
-     private IAccountDao accountDao = new AccountDaoImpl();
+    private IAccountDao accountDao = new AccountDaoImpl();
 
     public void saveAccount() {
         accountDao.saveAccount();
